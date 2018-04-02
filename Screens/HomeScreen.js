@@ -6,7 +6,6 @@ import { Constants } from 'expo';
 export class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'HomeScreen',
-
   };
   render() {
     return (
