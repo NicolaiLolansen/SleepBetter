@@ -8,6 +8,7 @@ export default {
   materialGreen: '#3cae47',
   materialBlue: '#2196f3',
   materialYellow: '#fcc81a',
+  themeBlue: '#00a6ff',
   white: '#fff',
   black: '#000',
   deviceWidth: DEVICE_WIDTH,

@@ -15,15 +15,15 @@ import { Permissions, Notifications } from 'expo';
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
 const SleepBetter = StackNavigator({
-  Home: { screen: HomeScreen},
-  Progress: { screen: ProgressScreen },
-  Morning: { screen: MorningScreen},
-  DailySummary: { screen: SummaryScreen },
-  PersonalOverview: { screen: PersonalScreen},
-  Settings: { screen: SettingsScreen },
-  Challenges: { screen: ChallengeScreen }
+  Home: { screen: HomeScreen, navigationOptions: { header: null }},
+  Progress: { screen: ProgressScreen, navigationOptions: { header: null } },
+  Morning: { screen: MorningScreen, navigationOptions: { header: null }},
+  DailySummary: { screen: SummaryScreen, navigationOptions: { header: null } },
+  PersonalOverview: { screen: PersonalScreen, navigationOptions: { header: null }},
+  Settings: { screen: SettingsScreen, navigationOptions: { header: null } },
+  Challenges: { screen: ChallengeScreen, navigationOptions: { header: null } }
 },
-{ initialRouteName: 'Home'}
+{ initialRouteName: 'Home'},
 );
 
 async function registerForPushNotificationsAsync() {
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
   }
 })

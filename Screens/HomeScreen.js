@@ -2,26 +2,25 @@ import React from 'react';
 import { ListView, Text, View, StyleSheet, Dimensions, Image, Button,TouchableHighlight } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
+import styleConstants from '../Styles/Global.js';
+import NavigationBar from '../Components/Navigation';
 
 export class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'HomeScreen',
-  };
+
   render() {
     return (
+
       <View style={styles.container}>
-        <Text>This is the home screen</Text>
-        <Button
-          title="Go to ProgressOverview"
-          onPress={() => this.props.navigation.navigate('Progress')}
+        <NavigationBar
+          title="HomeScreen"
         />
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('Morning')}>
-        
+        <TouchableHighlight style={styles.touch} onPress={() => this.props.navigation.navigate('Morning')}>       
           <Image 
-            style={styles.button}
+            style={styles.image}
             source={require('../images/marvel/front_calendar.png')}
            />
         </TouchableHighlight>
+
         <Button
           title="Go to ChallengeScreen"
           onPress={() => this.props.navigation.navigate('Challenges')}
@@ -31,8 +30,8 @@ export class HomeScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('PersonalOverview')}
         />
         <Button
-          title="Go to MorningScreen"
-          onPress={() => this.props.navigation.navigate('Morning')}
+          title="Go to ProgressOverview"
+          onPress={() => this.props.navigation.navigate('Progress')}
         />
         <Button
           title="Go to SettingsScreen"
@@ -50,12 +49,15 @@ export class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
-  button: {
+  image: {
+    width: styleConstants.deviceWidth - 20,
+    resizeMode: 'contain'
+  },
+  touch: {
 
-  }
+  },
 })

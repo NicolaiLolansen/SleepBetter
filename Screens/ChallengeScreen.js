@@ -2,15 +2,15 @@ import React from 'react';
 import { ListView, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
+import NavigationBar from '../Components/Navigation';
 
 export class ChallengeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'ChallengeScreen',
-
-  };
   render() {
     return (
       <View style={styles.container}>
+        <NavigationBar
+          title="ChallengeScreen"
+        />
         <Text>This is the Challenge Screen</Text>
         <Button
           title="Go to ProgressOverview"
