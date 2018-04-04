@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    margin: 15,
-    flex: 1,
+
   }
 })
