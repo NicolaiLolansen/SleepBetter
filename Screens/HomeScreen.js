@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
+import { ListView, Text, View, StyleSheet, Dimensions, Image, Button,TouchableHighlight } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
 
@@ -15,6 +15,13 @@ export class HomeScreen extends React.Component {
           title="Go to ProgressOverview"
           onPress={() => this.props.navigation.navigate('Progress')}
         />
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('Morning')}>
+        
+          <Image 
+            style={styles.button}
+            source={require('../images/marvel/front_calendar.png')}
+           />
+        </TouchableHighlight>
         <Button
           title="Go to ChallengeScreen"
           onPress={() => this.props.navigation.navigate('Challenges')}
@@ -47,5 +54,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
+  },
+  button: {
+    margin: 15,
+    flex: 1,
   }
 })
