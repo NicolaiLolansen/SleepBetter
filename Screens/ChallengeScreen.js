@@ -1,7 +1,6 @@
 import React from 'react';
-import { ListView, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
-import { StackNavigator} from 'react-navigation';
-import { Constants } from 'expo';
+import { Text, View, Image,StyleSheet} from 'react-native';
+import styleConstants from '../Styles/Global.js';
 import NavigationBar from '../Components/Navigation';
 
 export class ChallengeScreen extends React.Component {
@@ -9,24 +8,29 @@ export class ChallengeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <NavigationBar
-          title="ChallengeScreen"
+          title="Progress overview"
+          snavigation = {this.props.navigation}
         />
-        <Text>This is the Challenge Screen</Text>
-        <Button
-          title="Go to ProgressOverview"
-          onPress={() => this.props.navigation.navigate('Progress')}
+      
+        <Image 
+          style={styles.image}
+          source={require('../images/marvel/achievementsscreen.png')}
         />
       </View>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#fff',
-  }
+    backgroundColor: '#f1f4f0',
+  },
+  image: {
+    width: styleConstants.deviceWidth - 20,
+    resizeMode: 'contain',
+  },
 })
