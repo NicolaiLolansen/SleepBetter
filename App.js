@@ -14,8 +14,8 @@ import styleConstants from './Styles/Global.js';
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
-//let ENDPOINT = "http://34.240.2.7:8080"
-let ENDPOINT = "http://10.16.140.153:8080"
+let ENDPOINT = "http://34.240.2.7:8080"
+// let ENDPOINT = "http://10.16.140.153:8080"
 let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
 let STATE_ENDPOINT = ENDPOINT+"/getstate";
 let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
@@ -189,7 +189,7 @@ ChangeTextFunction =()=>{
                 <Text style = {styles.loginText}>Please register your phone for the SleepBetter prototype Experiment</Text>
                <TextInput style = {styles.input}
                autoCapitalize="none"
-               onSubmitEditing= {this.handleUsername}
+               onChangeText= {this.handleUsername}
                autoCorrect={false}
                returnKeyType="next"
                placeholder='Name'
