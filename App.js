@@ -13,7 +13,11 @@ import { Permissions, Notifications } from 'expo';
 
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
-let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
+//let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
+let ENDPOINT = "http://34.240.2.7:8080"
+let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
+let STATE_ENDPOINT = ENDPOINT+"/getstate"
+
 const SleepBetter = StackNavigator({
   Home: { screen: HomeScreen},
   Progress: { screen: ProgressScreen },
@@ -90,6 +94,8 @@ ChangeTextFunction =()=>{
       .then((responseJson) => {
         if(responseJson.success){
             alert(responseJson.success)
+        }else{
+            console.log(responseJson)
         }
 
       })
