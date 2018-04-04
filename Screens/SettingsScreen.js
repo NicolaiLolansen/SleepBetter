@@ -1,32 +1,36 @@
 import React from 'react';
-import { ListView, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
-import { StackNavigator} from 'react-navigation';
-import { Constants } from 'expo';
+import { Text, View, Image,StyleSheet} from 'react-native';
+import styleConstants from '../Styles/Global.js';
+import NavigationBar from '../Components/Navigation';
 
 export class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
-
-  };
   render() {
     return (
       <View style={styles.container}>
-        <Text>This is the settings screen</Text>
-        <Button
-          title="Go to ProgressOverview"
-          onPress={() => this.props.navigation.navigate('Progress')}
+        <NavigationBar
+          title="Settings"
+          snavigation = {this.props.navigation}
+        />
+      
+        <Image 
+          style={styles.image}
+          source={require('../images/marvel/settingsscreen.png')}
         />
       </View>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: '#fff',
-  }
+  },
+  image: {
+    width: styleConstants.deviceWidth - 20,
+    resizeMode: 'contain',
+  },
 })
