@@ -14,9 +14,12 @@ import { Permissions, Notifications } from 'expo';
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
-let ENDPOINT = "http://34.240.2.7:8080"
+//let ENDPOINT = "http://34.240.2.7:8080"
+let ENDPOINT = "http://10.16.140.153:8080"
 let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
-let STATE_ENDPOINT = ENDPOINT+"/getstate"
+let STATE_ENDPOINT = ENDPOINT+"/getstate";
+let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
+let NOTIFICATION_UPDATEENDPOINT = ENDPOINT+"/updatenotification";
 
 const SleepBetter = StackNavigator({
   Home: { screen: HomeScreen},
@@ -121,7 +124,34 @@ ChangeTextFunction =()=>{
  _handleNotification = (notification) => {
    this.setState({notification: notification});
    console.log(notification);
- };
+   if(notification.origin == "received" || notification.origin == "selected"){
+   console.log("Handle OK");
+
+   fetch(NOTIFICATION_UPDATEENDPOINT,{
+       method: 'POST',
+       headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+       body: JSON.stringify(notification),
+   })
+     .then((response) => response.json())
+     .then((responseJson) => {
+       if(responseJson.success){
+           alert(responseJson.success)
+
+       }else{
+           alert(responseJson)
+       }
+
+
+     })
+     .catch((error) =>{
+       console.error(error);
+     });
+
+ }
+};
 
   render() {
     return (
