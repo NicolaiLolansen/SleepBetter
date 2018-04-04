@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, Text, TextInput, TouchableHighlight, View, StyleSheet, Dimensions, Button } from 'react-native';
+import { ListView, Text, TextInput, TouchableHighlight, View, StyleSheet, Dimensions, Button, ActivityIndicator } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
 import { ChallengeScreen } from './Screens/ChallengeScreen.js';
@@ -53,11 +53,10 @@ async function registerForPushNotificationsAsync() {
   }
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
-  console.log(token);
+
   return token;
 
 }
-
 
 export default class App extends React.Component {
 constructor(){
@@ -66,6 +65,8 @@ constructor(){
         token: "",
         notification: [],
         username: "",
+        registered: false,
+        loading: true
     };
 }
 
@@ -73,8 +74,9 @@ handleUsername =(text)=>{
     this.setState({ username: text })
 }
 
-ChangeTextFunction =()=>{
 
+
+ChangeTextFunction =()=>{
     (async() =>{
         let token = await registerForPushNotificationsAsync();
         console.log(token)
@@ -82,8 +84,6 @@ ChangeTextFunction =()=>{
     this.setState({
         token: token
     })
-
-    console.log(JSON.stringify(this.state));
     //alert('Token: ' + token + ' Username: ' + this.state.username)
     fetch(PUSH_ENDPOINT,{
     method: 'POST',
@@ -110,8 +110,21 @@ ChangeTextFunction =()=>{
 }
 
 
- componentDidMount() {
-   registerForPushNotificationsAsync();
+ async componentDidMount() {
+   let token = await registerForPushNotificationsAsync();
+   url = ENDPOINT + "/getstate/"+token
+   console.log(url)
+   fetch(url)
+   .then((response) => response.json())
+   .then((responseJson) => {
+       console.log("HANDLED LOGIN")
+       console.log(responseJson)
+       if(responseJson){
+           this.setState({registered: true,token:token,loading: false})
+       } else{
+           this.setState({token:token,loading: false})
+       }
+   })
 
    // Handle notifications that are received or selected while the app
    // is open. If the app was closed and then opened by tapping the
@@ -154,22 +167,37 @@ ChangeTextFunction =()=>{
 };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <SleepBetter style={{ width: Dimensions.get("window").width }} />
-        <Text>{this.state.token}</Text>
-        <TextInput style = {styles.input}
-              underlineColorAndroid = "transparent"
-              placeholder = "Email"
-              placeholderTextColor = "#9a73ef"
-              autoCapitalize = "none"
-              onChangeText = {this.handleUsername}/>
-        <Button title="Register Phone for Experiment" onPress={this.ChangeTextFunction}/>
+    if(this.state.loading){
+        return(
+        <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size="large" color="#0000ff" />
+        </View>);
+    } else {
 
 
-      </View>
-    );
-  }
+        if(this.state.registered){
+        return (
+          <View style={styles.container}>
+            <SleepBetter style={{ width: Dimensions.get("window").width }} />
+          </View>
+        );
+        } else{
+
+            return(
+            <View style={styles.container}>
+                <Text>{this.state.token}</Text>
+                <TextInput style = {styles.input}
+                      underlineColorAndroid = "transparent"
+                      placeholder = "Email"
+                      placeholderTextColor = "#9a73ef"
+                      autoCapitalize = "none"
+                      onChangeText = {this.handleUsername}/>
+                <Button title="Register Phone for Experiment" onPress={this.ChangeTextFunction}/>
+                </View>
+);
+    }
+    }
+}
 }
 
 const styles = StyleSheet.create({
