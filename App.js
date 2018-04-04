@@ -10,7 +10,7 @@ import { ProgressScreen } from './Screens/ProgressScreen.js';
 import { SettingsScreen } from './Screens/SettingsScreen.js';
 import { SummaryScreen } from './Screens/SummaryScreen.js';
 import { Permissions, Notifications } from 'expo';
-
+import styleConstants from './Styles/Global.js';
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
@@ -60,6 +60,7 @@ async function registerForPushNotificationsAsync() {
 
 export default class App extends React.Component {
 constructor(){
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
     super();
     this.state = {
         token: "",
@@ -79,11 +80,6 @@ handleUsername =(text)=>{
 ChangeTextFunction =()=>{
     (async() =>{
         let token = await registerForPushNotificationsAsync();
-        console.log(token)
-
-    this.setState({
-        token: token
-    })
     //alert('Token: ' + token + ' Username: ' + this.state.username)
     fetch(PUSH_ENDPOINT,{
     method: 'POST',
@@ -96,9 +92,12 @@ ChangeTextFunction =()=>{
       .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.success){
-            alert(responseJson.success)
+            this.setState({registered: true,loading:false});
+            //alert(responseJson.success)
+
         }else{
-            console.log(responseJson)
+            alert(responseJson.error)
+            this.setState({registered: false , loading:false});
         }
 
       })
@@ -119,10 +118,10 @@ ChangeTextFunction =()=>{
    .then((responseJson) => {
        console.log("HANDLED LOGIN")
        console.log(responseJson)
-       if(responseJson){
+       if(responseJson.state){
            this.setState({registered: true,token:token,loading: false})
        } else{
-           this.setState({token:token,loading: false})
+           this.setState({token:token, loading: false})
        }
    })
 
@@ -167,32 +166,37 @@ ChangeTextFunction =()=>{
 };
 
   render() {
+    console.log(this.state)
     if(this.state.loading){
+        console.log("LOADING STATE")
         return(
         <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#0000ff" />
         </View>);
     } else {
 
-
         if(this.state.registered){
+        console.log("REGISTERED STATE")
         return (
           <View style={styles.container}>
-            <SleepBetter style={{ width: Dimensions.get("window").width }} />
+            <SleepBetter style={{ width: styleConstants.deviceWidth}} />
           </View>
         );
         } else{
-
+            console.log("NOT REGISTERED STATE")
             return(
-            <View style={styles.container}>
-                <Text>{this.state.token}</Text>
-                <TextInput style = {styles.input}
-                      underlineColorAndroid = "transparent"
-                      placeholder = "Email"
-                      placeholderTextColor = "#9a73ef"
-                      autoCapitalize = "none"
-                      onChangeText = {this.handleUsername}/>
-                <Button title="Register Phone for Experiment" onPress={this.ChangeTextFunction}/>
+            <View style={styles.loginContainer}>
+                <Text style = {styles.loginText}>Please register your phone for the SleepBetter prototype Experiment</Text>
+               <TextInput style = {styles.input}
+               autoCapitalize="none"
+               onSubmitEditing= {this.handleUsername}
+               autoCorrect={false}
+               returnKeyType="next"
+               placeholder='Name'
+               placeholderTextColor='rgba(225,225,225,0.7)'
+               />
+
+                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.ChangeTextFunction}/>
                 </View>
 );
     }
@@ -205,5 +209,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#fff',
-  }
+},
+  input:{
+        height: 40,
+        backgroundColor: 'rgba(225,225,225,0.2)',
+        marginBottom: 20,
+        padding: 10,
+        color: '#fff'
+    },
+    buttonContainer:{
+        backgroundColor: '#2980b6',
+        paddingVertical: 15,
+    },
+    buttonText:{
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '700'
+    },
+    loginText:{
+        padding: 15,
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '700',
+    },
+    loginContainer:{
+       flex: 1,
+       padding: 30,
+       backgroundColor: '#444',
+       justifyContent: 'center'
+   }
 })
