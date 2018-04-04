@@ -10,6 +10,7 @@ export class ChallengeScreen extends React.Component {
       <View style={styles.container}>
         <NavigationBar
           title="ChallengeScreen"
+          snavigation = {this.props.navigation}
         />
         <Text>This is the Challenge Screen</Text>
         <Button

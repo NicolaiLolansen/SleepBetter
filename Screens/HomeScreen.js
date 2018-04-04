@@ -13,33 +13,48 @@ export class HomeScreen extends React.Component {
       <View style={styles.container}>
         <NavigationBar
           title="HomeScreen"
+          snavigation = {this.props.navigation}
         />
-        <TouchableHighlight style={styles.touch} onPress={() => this.props.navigation.navigate('Morning')}>       
+        
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>       
           <Image 
             style={styles.image}
             source={require('../images/marvel/front_calendar.png')}
            />
         </TouchableHighlight>
 
-        <Button
-          title="Go to ChallengeScreen"
-          onPress={() => this.props.navigation.navigate('Challenges')}
-        />
-        <Button
-          title="Go to PersonalScreen"
-          onPress={() => this.props.navigation.navigate('PersonalOverview')}
-        />
-        <Button
-          title="Go to ProgressOverview"
-          onPress={() => this.props.navigation.navigate('Progress')}
-        />
-        <Button
-          title="Go to SettingsScreen"
-          onPress={() => this.props.navigation.navigate('Settings')}
-        />
+        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress')}>       
+          <Image 
+            style={styles.image}
+            source={require('../images/marvel/front_progress.png')}
+           />
+        </TouchableHighlight>
+
+        <View style={styles.sidebyside}>
+
+          <View style={styles.achievements}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges')}>       
+              <Image 
+                style={styles.imagehalf}
+                source={require('../images/marvel/front_achievements.png')}
+              />
+            </TouchableHighlight>
+          </View>
+
+          <View style={styles.personal}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('PersonalOverview')}>       
+              <Image 
+                style={styles.imagehalf}
+                source={require('../images/marvel/front_personal.png')}
+              />
+            </TouchableHighlight>
+          </View>
+
+        </View>
+
         <Button
           title="Go to SummaryScreen"
-          onPress={() => this.props.navigation.navigate('DailySummary')}
+          onPress={() => this.props.navigation.navigate('Morning')}
         />
       </View>
     )
@@ -55,9 +70,24 @@ const styles = StyleSheet.create({
   },
   image: {
     width: styleConstants.deviceWidth - 20,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    margin: 0,
+    padding: 0,
   },
-  touch: {
-
+  progress: {
+    marginTop: -15,
   },
+  sidebyside: {
+    width: styleConstants.deviceWidth - 20,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: -10,
+  },
+  achievements: {
+    width: styleConstants.deviceWidth * 0.5 - 10,
+    
+  },
+  personal:{
+    width: styleConstants.deviceWidth * 0.5 - 10,
+  }
 })
