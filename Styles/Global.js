@@ -15,6 +15,7 @@ export default {
   deviceHeight: DEVICE_HEIGHT,
   borderColor: '#EBEBEB',
   isAndroid: Platform.OS === 'android',
+  isIOS: Platform.OS === 'ios',
   isIpad: DEVICE_WIDTH >= 768,
   statusBarHeight: (Platform.OS === 'android') ? 20 : 0,
 };

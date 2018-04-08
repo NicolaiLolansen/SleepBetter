@@ -1,5 +1,13 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "name": "SleepBetter",
+    "sdkVersion": "25.0.0",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./images/app_icon.png",
+    "splash": {
+      "image": "./images/splash.png",
+      "resizeMode": "cover"
+    }
   }
 }
