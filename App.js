@@ -11,6 +11,8 @@ import { SettingsScreen } from './Screens/SettingsScreen.js';
 import { SummaryScreen } from './Screens/SummaryScreen.js';
 import { Permissions, Notifications } from 'expo';
 import styleConstants from './Styles/Global.js';
+import NavigationService from './NavigationService';
+
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
@@ -30,8 +32,11 @@ const SleepBetter = StackNavigator({
   Settings: { screen: SettingsScreen, navigationOptions: { header: null } },
   Challenges: { screen: ChallengeScreen, navigationOptions: { header: null } }
 },
-{ initialRouteName: 'Home'},
+{ initialRouteName: "Home"},
 );
+
+
+
 
 async function registerForPushNotificationsAsync() {
   const { status: existingStatus } = await Permissions.getAsync(
@@ -93,7 +98,7 @@ ChangeTextFunction =()=>{
       .then((responseJson) => {
         if(responseJson.success){
             this.setState({registered: true,loading:false});
-            //alert(responseJson.success)
+            alert(responseJson.success)
 
         }else{
             alert(responseJson.error)
@@ -133,6 +138,7 @@ ChangeTextFunction =()=>{
  }
 
  _handleNotification = (notification) => {
+
    this.setState({notification: notification});
    //console.log(notification);
    if(notification.origin == "received" || notification.origin == "selected"){
@@ -149,8 +155,7 @@ ChangeTextFunction =()=>{
      .then((response) => response.json())
      .then((responseJson) => {
        if(responseJson.success){
-           alert(responseJson.success)
-
+           NavigationService.navigate("Morning");
        }else{
            alert(responseJson)
        }
@@ -165,10 +170,9 @@ ChangeTextFunction =()=>{
 };
 
   render() {
-    console.log("App.js state is: ")
-    console.log(this.state)
     if(this.state.loading){
         console.log("LOADING STATE")
+
         return(
         <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#0000ff" />
@@ -177,11 +181,21 @@ ChangeTextFunction =()=>{
 
         if(this.state.registered){
         console.log("REGISTERED STATE")
-        return (
-          <View style={styles.container}>
-            <SleepBetter style={{ width: styleConstants.deviceWidth}} screenProps={this.state} />
-          </View>
-        );
+
+
+            return (
+              <View style={styles.container}>
+                <SleepBetter style={{ width: styleConstants.deviceWidth}} screenProps={this.state}
+                    ref={navigatorRef => {
+                        NavigationService.setTopLevelNavigator(navigatorRef);
+                    }}
+                />
+
+
+              </View>
+            );
+
+
         } else{
             console.log("NOT REGISTERED STATE")
             return(
