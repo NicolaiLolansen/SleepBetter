@@ -11,9 +11,10 @@ export class PersonalScreen extends React.Component {
     title: 'PersonalScreen',
 
   };
+
+
   render() {
     console.log("PersonalScreen state is: ")
-    
     console.log(this.props.screenProps)
     return (
       <View style={styles.container}>
@@ -21,8 +22,8 @@ export class PersonalScreen extends React.Component {
           title="Personal Overview"
           snavigation = {this.props.navigation}
         />
-      
-        <AutoHeightImage 
+
+        <AutoHeightImage
           style={styles.image}
           width={styleConstants.deviceWidth-18}
           source={require('../images/marvel/personal_overview.png')}
