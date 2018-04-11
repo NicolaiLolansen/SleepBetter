@@ -9,6 +9,9 @@ export class PersonalScreen extends React.Component {
 
   };
   render() {
+    console.log("PersonalScreen state is: ")
+    
+    console.log(this.props.screenProps)
     return (
       <View style={styles.container}>
         <Text>This is the personal screen</Text>

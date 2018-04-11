@@ -14,8 +14,8 @@ import styleConstants from './Styles/Global.js';
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
-//let ENDPOINT = "http://34.240.2.7:8080"
-let ENDPOINT = "http://10.16.140.153:8080"
+let ENDPOINT = "http://34.240.2.7:8080"
+//let ENDPOINT = "http://10.16.140.153:8080"
 let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
 let STATE_ENDPOINT = ENDPOINT+"/getstate";
 let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
@@ -112,12 +112,11 @@ ChangeTextFunction =()=>{
  async componentDidMount() {
    let token = await registerForPushNotificationsAsync();
    url = ENDPOINT + "/getstate/"+token
-   console.log(url)
    fetch(url)
    .then((response) => response.json())
    .then((responseJson) => {
        console.log("HANDLED LOGIN")
-       console.log(responseJson)
+       //console.log(responseJson)
        if(responseJson.state){
            this.setState({registered: true,token:token,loading: false})
        } else{
@@ -135,7 +134,7 @@ ChangeTextFunction =()=>{
 
  _handleNotification = (notification) => {
    this.setState({notification: notification});
-   console.log(notification);
+   //console.log(notification);
    if(notification.origin == "received" || notification.origin == "selected"){
    console.log("Handle OK");
 
@@ -166,6 +165,7 @@ ChangeTextFunction =()=>{
 };
 
   render() {
+    console.log("App.js state is: ")
     console.log(this.state)
     if(this.state.loading){
         console.log("LOADING STATE")
@@ -179,7 +179,7 @@ ChangeTextFunction =()=>{
         console.log("REGISTERED STATE")
         return (
           <View style={styles.container}>
-            <SleepBetter style={{ width: styleConstants.deviceWidth}} />
+            <SleepBetter style={{ width: styleConstants.deviceWidth}} screenProps={this.state} />
           </View>
         );
         } else{
@@ -189,9 +189,8 @@ ChangeTextFunction =()=>{
                 <Text style = {styles.loginText}>Please register your phone for the SleepBetter prototype Experiment</Text>
                <TextInput style = {styles.input}
                autoCapitalize="none"
-               onSubmitEditing= {this.handleUsername}
+               onChangeText= {this.handleUsername}
                autoCorrect={false}
-               returnKeyType="next"
                placeholder='Name'
                placeholderTextColor='rgba(225,225,225,0.7)'
                />
