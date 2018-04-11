@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Image,StyleSheet} from 'react-native';
 import styleConstants from '../Styles/Global.js';
 import NavigationBar from '../Components/Navigation';
+import AutoHeightImage from 'react-native-auto-height-image';
 
 export class ChallengeScreen extends React.Component {
   render() {
@@ -12,8 +13,9 @@ export class ChallengeScreen extends React.Component {
           snavigation = {this.props.navigation}
         />
       
-        <Image 
+        <AutoHeightImage 
           style={styles.image}
+          width={styleConstants.deviceWidth}
           source={require('../images/marvel/achievementsscreen.png')}
         />
       </View>
@@ -24,6 +26,7 @@ export class ChallengeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 5,
     paddingLeft: 10,
     paddingRight: 10,
     justifyContent: 'center',

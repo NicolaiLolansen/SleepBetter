@@ -5,6 +5,8 @@ import { Constants } from 'expo';
 import styleConstants from '../Styles/Global.js';
 import NavigationBar from '../Components/Navigation';
 
+import AutoHeightImage from 'react-native-auto-height-image';
+
 export class HomeScreen extends React.Component {
 
   render() {
@@ -17,15 +19,17 @@ export class HomeScreen extends React.Component {
         />
         
         <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>       
-          <Image 
+          <AutoHeightImage 
             style={styles.image}
+            width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/front_calendar.png')}
            />
         </TouchableHighlight>
 
         <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress')}>       
-          <Image 
+          <AutoHeightImage 
             style={styles.image}
+            width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/front_progress.png')}
            />
         </TouchableHighlight>
@@ -34,8 +38,9 @@ export class HomeScreen extends React.Component {
 
           <View style={styles.achievements}>
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges')}>       
-              <Image 
+              <AutoHeightImage 
                 style={styles.imagehalf}
+                width={styleConstants.deviceWidth * 0.5 - 10}
                 source={require('../images/marvel/front_achievements.png')}
               />
             </TouchableHighlight>
@@ -43,8 +48,9 @@ export class HomeScreen extends React.Component {
 
           <View style={styles.personal}>
             <TouchableHighlight onPress={() => this.props.navigation.navigate('PersonalOverview')}>       
-              <Image 
+              <AutoHeightImage 
                 style={styles.imagehalf}
+                width={styleConstants.deviceWidth * 0.5 - 10}
                 source={require('../images/marvel/front_personal.png')}
               />
             </TouchableHighlight>
@@ -53,7 +59,7 @@ export class HomeScreen extends React.Component {
         </View>
 
         <Button
-          title="Go to SummaryScreen"
+          title="Go to Morning Screen"
           onPress={() => this.props.navigation.navigate('Morning')}
         />
       </View>
@@ -71,8 +77,9 @@ const styles = StyleSheet.create({
   image: {
     width: styleConstants.deviceWidth - 20,
     resizeMode: 'contain',
-    margin: 0,
-    padding: 0,
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 20,
   },
   progress: {
     marginTop: -15,

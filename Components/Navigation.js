@@ -1,20 +1,27 @@
 import React from 'react';
 import styleConstants from '../Styles/Global.js';
 import {Text, TouchableHighlight, Image, StyleSheet, View, StackNavigator, Button } from 'react-native';
+import {Platform} from 'react-native';
 
 class NavigationBar extends React.Component {
 
   render() {
+
+    function BackButton () {
+        if (Platform.OS === 'ios') {
+          return <Text> Go Back{"\n"}Swipe left</Text>
+        }
+        else {
+          return <Image style={styles.icon} source={require('../images/icon/back.png')} />
+        }
+    }
     
     return (
       <View style={styles.container}>
   
         <View style={styles.back}>
           <TouchableHighlight style={styles.touch} onPress={() => this.props.snavigation.navigate('Home')}>       
-            <Image 
-              style={styles.icon}
-              source={require('../images/icon/back.png')}
-            />
+            <BackButton />
           </TouchableHighlight>
         </View>
 
@@ -64,8 +71,11 @@ const styles = StyleSheet.create({
     top: 35
   },
   back: {
+    // display: isIOS ? 'None'
     height: 30,
     position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
     left: 20,
     top: 35
   },
