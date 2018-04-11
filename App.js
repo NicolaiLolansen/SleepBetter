@@ -74,15 +74,26 @@ constructor(){
         registered: false,
         loading: true
     };
+
+    this.userData = {
+        age: "",
+        gender: "",
+        sleepQuality: ""
+    }
 }
 
 handleUsername =(text)=>{
     this.setState({ username: text })
 }
 
+setUserData =(value, key)=>{
+    this.userData.key = value;
+}
 
 
-ChangeTextFunction =()=>{
+
+RegisterUser =()=>{
+    // console.log(this.userData);
     (async() =>{
         let token = await registerForPushNotificationsAsync();
     //alert('Token: ' + token + ' Username: ' + this.state.username)
@@ -92,7 +103,7 @@ ChangeTextFunction =()=>{
                  'Accept': 'application/json',
                  'Content-Type': 'application/json',
     },
-    body: JSON.stringify(this.state),
+    body: JSON.stringify({ 'state': this.state, 'data': this.userData }),
 })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -209,7 +220,7 @@ ChangeTextFunction =()=>{
                placeholderTextColor='rgba(225,225,225,0.7)'
                />
 
-                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.ChangeTextFunction}/>
+                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.RegisterUser}/>
                 </View>
 );
     }
