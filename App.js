@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, Text, TextInput, TouchableHighlight, View, StyleSheet, Dimensions, Button, ActivityIndicator } from 'react-native';
+import { ListView, Text, TextInput, TouchableHighlight, View, StyleSheet, Dimensions, Button, ActivityIndicator, KeyboardAvoidingView, Picker } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
 import { ChallengeScreen } from './Screens/ChallengeScreen.js';
@@ -72,58 +72,80 @@ constructor(){
         notification: [],
         username: "",
         registered: false,
-        loading: true
+        loading: true,
+        gender: 'hhh'
     };
 
     this.userData = {
         age: "",
-        gender: "",
+        gender: "Gender...",
         sleepQuality: ""
     }
 }
 
-handleUsername =(text)=>{
+handleUsername = (text) => {
     this.setState({ username: text })
 }
 
-setUserData =(value, key)=>{
-    this.userData.key = value;
+setUserData = (key, value) => {
+  if (value != "") {
+    this.userData[key] = value;
+    this.setState({gender: value})
+  }
+}
+
+textInputFocused() {
+ console.log("focus")
 }
 
 
+RegisterUser = () => {
+    var allTrue = true;
 
-RegisterUser =()=>{
-    // console.log(this.userData);
-    (async() =>{
-        let token = await registerForPushNotificationsAsync();
-    //alert('Token: ' + token + ' Username: ' + this.state.username)
-    fetch(PUSH_ENDPOINT,{
-    method: 'POST',
-    headers: {
-                 'Accept': 'application/json',
-                 'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ 'state': this.state, 'data': this.userData }),
-})
-      .then((response) => response.json())
-      .then((responseJson) => {
-        if(responseJson.success){
-            this.setState({registered: true,loading:false});
-            alert(responseJson.success)
+    for (var key in this.userData) {
+      if (this.userData[key] == "") {
+        allTrue = false;
+        break;
+      }
+    }
+    if (this.state.username == "") {
+      allTrue = false;
+    }    
 
-        }else{
-            alert(responseJson.error)
-            this.setState({registered: false , loading:false});
-        }
-
+    if (allTrue) {
+      (async() => {
+          let token = await registerForPushNotificationsAsync();
+      //alert('Token: ' + token + ' Username: ' + this.state.username)
+      fetch(PUSH_ENDPOINT,{
+      method: 'POST',
+      headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 'state': this.state, 'data': this.userData }),
       })
-      .catch((error) =>{
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if(responseJson.success){
+              this.setState({registered: true,loading:false});
+              alert(responseJson.success)
 
-    })();
+          }else{
+              alert(responseJson.error)
+              this.setState({registered: false , loading:false});
+          }
+
+        })
+        .catch((error) =>{
+          console.error(error);
+        });
+
+      })();
+    }
+    else {
+      alert("Please fill in all fields!")
+    }
 }
-
 
  async componentDidMount() {
    let token = await registerForPushNotificationsAsync();
@@ -190,9 +212,9 @@ RegisterUser =()=>{
         </View>);
     } else {
 
-        if(this.state.registered){
+        // if(this.state.registered && false){
+        if(false){
         console.log("REGISTERED STATE")
-
 
             return (
               <View style={styles.container}>
@@ -201,8 +223,6 @@ RegisterUser =()=>{
                         NavigationService.setTopLevelNavigator(navigatorRef);
                     }}
                 />
-
-
               </View>
             );
 
@@ -211,17 +231,47 @@ RegisterUser =()=>{
             console.log("NOT REGISTERED STATE")
             return(
             <View style={styles.loginContainer}>
-                <Text style = {styles.loginText}>Please register your phone for the SleepBetter prototype Experiment</Text>
+
+            <KeyboardAvoidingView style={styles.loginContainer} behavior="padding">
+               <Text style = {styles.loginText}>Please register your phone for the SleepBetter prototype Experiment</Text>
                <TextInput style = {styles.input}
                autoCapitalize="none"
-               onChangeText= {this.handleUsername}
+               onChangeText= {(text) => this.handleUsername(text) }
                autoCorrect={false}
                placeholder='Name'
                placeholderTextColor='rgba(225,225,225,0.7)'
                />
 
-                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.RegisterUser}/>
-                </View>
+               <TextInput style = {styles.input}
+               autoCapitalize="none"
+               onChangeText= {(text) => this.setUserData('age', text)}
+               autoCorrect={false}
+               placeholder='Age...'
+               placeholderTextColor='rgba(225,225,225,0.7)'
+               />
+
+               <Picker
+                  style={[styles.input, styles.picker]}
+                  selectedValue={this.state.gender}
+                  // selectedValue={this.userData['gender']}
+                  onValueChange={(itemValue, itemIndex) => this.setUserData('gender', itemValue)}>
+                    <Picker.Item label="Gender..." value="" />
+                    <Picker.Item label="Male" value="male" />
+                    <Picker.Item label="Female" value="female" />
+                    <Picker.Item label="Other" value="other" />
+               </Picker>
+
+               <TextInput style = {styles.input}
+               autoCapitalize="none"
+               onChangeText= {(text) => this.setUserData('sleepQuality', text)}
+               autoCorrect={false}
+               placeholder='Sleep Quality...'
+               placeholderTextColor='rgba(225,225,225,0.7)'
+               />
+  
+               <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.RegisterUser}/>
+            </KeyboardAvoidingView>
+          </View>
 );
     }
     }
@@ -234,6 +284,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
 },
+  picker: {
+    color: '#b2beb5',
+  },
   input:{
         height: 40,
         backgroundColor: 'rgba(225,225,225,0.2)',
