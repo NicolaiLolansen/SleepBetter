@@ -28,6 +28,33 @@ export class MorningScreen extends React.Component {
     this.setState({question:true});
  }
 
+ submitQuestions = () => {
+  this.props.navigation.navigate('DailySummary');
+
+  // Create data
+  let questions = [
+    {
+      "question" : "Coffee",
+      "value" : this.state.checked0,
+    },
+    {
+      "question" : "Meal",
+      "value" : this.state.checked1,
+    },
+    {
+      "question" : "Exercised",
+      "value" : this.state.checked2,
+    },
+    {
+      "question" : "Yoga",
+      "value" : this.state.checked3,
+    },
+  ];
+
+  // TO DO send data in using RegisterUser in app
+
+}
+
   render() {
     return (
       <View style={styles.container}>
@@ -120,7 +147,7 @@ export class MorningScreen extends React.Component {
                 })
               }
             />
-          <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('DailySummary')} >       
+          <TouchableHighlight style={styles.progress} onPress={() => this.submitQuestions()} >       
             <AutoHeightImage 
               style={styles.image}
               width={styleConstants.deviceWidth-20}
