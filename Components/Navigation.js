@@ -9,22 +9,22 @@ class NavigationBar extends React.Component {
 
     function BackButton () {
         if (Platform.OS === 'ios') {
-          return <Text> Go Back{"\n"}Swipe left</Text>
+          return <Text> Go Back{"\n"}Swipe left {this.props.snavigation}</Text>
         }
         else {
-          return <Image style={styles.icon} source={require('../images/icon/back.png')} />
+          return <Image style={styles.icon} source={require('../images/icon/house.png')} />
         }
     }
     
     return (
       <View style={styles.container}>
-  
+      {this.props.title != "HomeScreen" && 
         <View style={styles.back}>
           <TouchableHighlight style={styles.touch} onPress={() => this.props.snavigation.navigate('Home')}>       
             <BackButton />
           </TouchableHighlight>
         </View>
-
+      }
         <View style={styles.textContainer}>    
           <Text style={styles.header}>{this.props.title}</Text>  
         </View>
@@ -65,23 +65,23 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   settings: {
-    height: 30,
+    height: 25,
     position: 'absolute',
     right: 20,
-    top: 35
+    top: 40
   },
   back: {
     // display: isIOS ? 'None'
-    height: 30,
+    height: 25,
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     left: 20,
-    top: 35
+    top: 40
   },
   icon: {
-    height: 30,
-    width: 30
+    height: 25,
+    width: 25
   }
 })
 
