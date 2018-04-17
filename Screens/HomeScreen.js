@@ -10,6 +10,9 @@ import AutoHeightImage from 'react-native-auto-height-image';
 export class HomeScreen extends React.Component {
 
   render() {
+
+    const state = this.props.screenProps
+    console.log(state)
     return (
 
       <View style={styles.container}>
@@ -17,17 +20,17 @@ export class HomeScreen extends React.Component {
           title="HomeScreen"
           snavigation = {this.props.navigation}
         />
-        
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>       
-          <AutoHeightImage 
+
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>
+          <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/front_calendar.png')}
            />
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress')}>       
-          <AutoHeightImage 
+        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress')}>
+          <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/front_progress.png')}
@@ -37,8 +40,8 @@ export class HomeScreen extends React.Component {
         <View style={styles.sidebyside}>
 
           <View style={styles.achievements}>
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges')}>       
-              <AutoHeightImage 
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges')}>
+              <AutoHeightImage
                 style={styles.imagehalf}
                 width={styleConstants.deviceWidth * 0.5 - 10}
                 source={require('../images/marvel/front_achievements.png')}
@@ -47,8 +50,8 @@ export class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.personal}>
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('PersonalOverview')}>       
-              <AutoHeightImage 
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('PersonalOverview')}>
+              <AutoHeightImage
                 style={styles.imagehalf}
                 width={styleConstants.deviceWidth * 0.5 - 10}
                 source={require('../images/marvel/front_personal.png')}
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
   },
   achievements: {
     width: styleConstants.deviceWidth * 0.5 - 10,
-    
+
   },
   personal:{
     width: styleConstants.deviceWidth * 0.5 - 10,

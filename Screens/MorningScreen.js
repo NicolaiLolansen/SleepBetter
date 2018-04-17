@@ -6,6 +6,9 @@ import { Constants } from 'expo';
 import styleConstants from '../Styles/Global.js';
 import NavigationBar from '../Components/Navigation';
 import AutoHeightImage from 'react-native-auto-height-image';
+import {PUSH_ENDPOINT} from '../App.js';
+
+
 
 export class MorningScreen extends React.Component {
   static navigationOptions = {
@@ -20,16 +23,16 @@ export class MorningScreen extends React.Component {
       checked0: false,
       checked1: false,
       checked2: false,
-      checked3: false, 
+      checked3: false,
     };
- } 
- 
+ }
+
  showQuestions = () => {
     this.setState({question:true});
  }
 
  submitQuestions = () => {
-  this.props.navigation.navigate('DailySummary');
+  let state = this.props.screenProps
 
   // Create data
   let questions = [
@@ -51,30 +54,53 @@ export class MorningScreen extends React.Component {
     },
   ];
 
-  // TO DO send data in using RegisterUser in app
+        (async() => {
+        //alert('Token: ' + token + ' Username: ' + this.state.username)
+        fetch(PUSH_ENDPOINT,{
+        method: 'POST',
+        headers: {
+                     'Accept': 'application/json',
+                     'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'state': state, 'questions': questions }),
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            if(responseJson.success){
+                this.props.navigation.navigate('DailySummary');
+                alert(responseJson.success)
+            }else{
+                alert(responseJson.error)
+            }
 
+          })
+          .catch((error) =>{
+            console.error(error);
+          });
+        })();
 }
 
   render() {
+
     return (
       <View style={styles.container}>
         <NavigationBar
           title="Daily summary"
           snavigation = {this.props.navigation}
         />
-        
-        {!this.state.question && 
-        <View> 
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>       
-            <AutoHeightImage 
+
+        {!this.state.question &&
+        <View>
+          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>
+            <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/morning_screen1.png')}
             />
           </TouchableHighlight>
 
-          <TouchableHighlight style={styles.progress} onPress={() => this.showQuestions() } >       
-            <AutoHeightImage 
+          <TouchableHighlight style={styles.progress} onPress={() => this.showQuestions() } >
+            <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/letsgo.png')}
@@ -82,11 +108,11 @@ export class MorningScreen extends React.Component {
           </TouchableHighlight>
         </View> }
 
-        {this.state.question && 
-        <View> 
-          
-          <View style={styles.morningMessage}> 
-            <AutoHeightImage 
+        {this.state.question &&
+        <View>
+
+          <View style={styles.morningMessage}>
+            <AutoHeightImage
               style={styles.image2}
               width={styleConstants.deviceWidth*0.3-20}
               source={require('../images/marvel/logo.png')}
@@ -100,8 +126,8 @@ export class MorningScreen extends React.Component {
               title='Had coffee'
               containerStyle={!this.state.checked0 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
-              checkedIcon=''
-              uncheckedIcon=''
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
               checked={this.state.checked0}
               onPress={() => this.setState({
                 checked0: !this.state.checked0
@@ -113,8 +139,8 @@ export class MorningScreen extends React.Component {
               title='Ate a big meal'
               containerStyle={!this.state.checked1 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
-              checkedIcon=''
-              uncheckedIcon=''
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
               checked={this.state.checked1}
               onPress={() => this.setState({
                 checked1: !this.state.checked1
@@ -126,8 +152,8 @@ export class MorningScreen extends React.Component {
               title='Exercised'
               containerStyle={!this.state.checked2 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
-              checkedIcon=''
-              uncheckedIcon=''
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
               checked={this.state.checked2}
               onPress={() => this.setState({
                 checked2: !this.state.checked2
@@ -139,16 +165,16 @@ export class MorningScreen extends React.Component {
               title='Did some yoga'
               containerStyle={!this.state.checked3 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
-              checkedIcon=''
-              uncheckedIcon=''
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
               checked={this.state.checked3}
               onPress={() => this.setState({
                 checked3: !this.state.checked3
                 })
               }
             />
-          <TouchableHighlight style={styles.progress} onPress={() => this.submitQuestions()} >       
-            <AutoHeightImage 
+          <TouchableHighlight style={styles.progress} onPress={() => this.submitQuestions()} >
+            <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/letsgo.png')}

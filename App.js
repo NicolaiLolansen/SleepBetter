@@ -17,11 +17,13 @@ import NavigationService from './NavigationService';
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
 let ENDPOINT = "http://34.240.2.7:8080"
-// let ENDPOINT = "http://10.16.140.153:8080"
+//let ENDPOINT = "http://192.168.0.14:8080"
 let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
 let STATE_ENDPOINT = ENDPOINT+"/getstate";
 let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
 let NOTIFICATION_UPDATEENDPOINT = ENDPOINT+"/updatenotification";
+
+export {PUSH_ENDPOINT}
 
 const SleepBetter = StackNavigator({
   Home: { screen: HomeScreen, navigationOptions: { header: null }},
@@ -110,7 +112,7 @@ RegisterUser = () => {
     }
     if (this.state.username == "") {
       allTrue = false;
-    }    
+    }
 
     if (allTrue) {
       (async() => {
@@ -156,7 +158,7 @@ RegisterUser = () => {
        console.log("HANDLED LOGIN")
        //console.log(responseJson)
        if(responseJson.state){
-           this.setState({registered: true,token:token,loading: false})
+           this.setState({registered: true ,token:token,loading: false})
        } else{
            this.setState({token:token, loading: false})
        }
@@ -173,7 +175,6 @@ RegisterUser = () => {
  _handleNotification = (notification) => {
 
    this.setState({notification: notification});
-   //console.log(notification);
    if(notification.origin == "received" || notification.origin == "selected"){
    console.log("Handle OK");
 
@@ -188,7 +189,7 @@ RegisterUser = () => {
      .then((response) => response.json())
      .then((responseJson) => {
        if(responseJson.success){
-           NavigationService.navigate("Morning");
+           NavigationService.navigate("Morning",this.state);
        }else{
            alert(responseJson)
        }
@@ -213,9 +214,9 @@ RegisterUser = () => {
     } else {
 
         // if(this.state.registered && false){
-        if(false){
+    if(this.state.registered){
         console.log("REGISTERED STATE")
-
+        console.log(this.state)
             return (
               <View style={styles.container}>
                 <SleepBetter style={{ width: styleConstants.deviceWidth}} screenProps={this.state}
@@ -268,7 +269,7 @@ RegisterUser = () => {
                placeholder='Sleep Quality...'
                placeholderTextColor='rgba(225,225,225,0.7)'
                />
-  
+
                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.RegisterUser}/>
             </KeyboardAvoidingView>
           </View>
