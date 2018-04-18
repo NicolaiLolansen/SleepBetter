@@ -57,14 +57,6 @@ export class SummaryScreen extends React.Component {
   }
 }
 
-      // <View style={styles.container}>
-      //   <Text>This is the Summary screen</Text>
-      //   <Button
-      //     title="Go to ProgressOverview"
-      //     onPress={() => this.props.navigation.navigate('Progress')}
-      //   />
-      // </View>
-
 const styles = StyleSheet.create({
   container: {
     paddingLeft: 10,

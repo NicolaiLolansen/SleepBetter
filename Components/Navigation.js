@@ -46,7 +46,7 @@ class NavigationBar extends React.Component {
 const styles = StyleSheet.create({
   container: {
     height: 80,
-    paddingTop: 20,
+    paddingTop: 30,
     width: styleConstants.deviceWidth,
     marginLeft: -10,
     backgroundColor: styleConstants.themeBlue,

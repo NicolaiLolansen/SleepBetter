@@ -66,13 +66,6 @@ export class MorningScreen extends React.Component {
 
  }
 
- setRateSleep = (key, value) => {
-  if (value != "") {
-    this.userData[key] = value;
-    this.setState({gender: value})
-  }
-}
-
  submitQuestions = () => {
   let state = this.props.screenProps
   console.log(usedDictQuestions);
@@ -157,26 +150,30 @@ componentWillMount(){
    return (
 
 
-      <View style={styles.container}>
-        <NavigationBar
-          title="Daily summary"
-          snavigation = {this.props.navigation}
-        />
+      <View >
+
 
 
         {!this.state.question &&
+<<<<<<< HEAD
         <View>
           <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today : true})}>
+=======
+        <View style={styles.container}>
+                <NavigationBar
+          title="Morning Screen"
+          snavigation = {this.props.navigation}
+        />
+>>>>>>> 0b93c5aeaf0ce9f43a31396fee690d42df841aca
             <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/morning_screen1.png')}
             />
-          </TouchableHighlight>
-
+      
           <TouchableHighlight style={styles.progress} onPress={() => this.showQuestions() } >
             <AutoHeightImage
-              style={styles.image}
+              style={[styles.image, {marginTop:30}]}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/letsgo.png')}
             />
@@ -184,8 +181,11 @@ componentWillMount(){
         </View> }
 
         {this.state.question &&
-        <View>
-
+        <View style={styles.container2}>
+        <NavigationBar
+          title="Morning Screen"
+          snavigation = {this.props.navigation}
+        />
           <View style={styles.morningMessage}>
             <AutoHeightImage
               style={styles.image2}
@@ -304,7 +304,7 @@ componentWillMount(){
 
           <TouchableHighlight style={styles.progress} onPress={() => this.submitQuestions()} >
             <AutoHeightImage
-              style={styles.image}
+              style={styles.image3}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/letsgo.png')}
             />
@@ -322,6 +322,15 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     justifyContent: 'center',
     backgroundColor: '#fff',
+    paddingBottom:40,
+  },
+  container2: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop:4,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    paddingBottom:40,
   },
   containerloading: {
     flex: 1,
@@ -330,13 +339,16 @@ const styles = StyleSheet.create({
 },
   image: {
     paddingTop:10,
-    marginBottom:30,
     resizeMode: 'contain',
   },
   image2: {
     paddingTop:10,
     marginBottom:20,
     marginTop: 20,
+    resizeMode: 'contain',
+  },
+  image3: {
+    marginTop:10,
     resizeMode: 'contain',
   },
   morningMessage: {
@@ -378,7 +390,7 @@ const styles = StyleSheet.create({
   },
 
   rateSleepContainer: {
-    marginTop: 20,
+    marginTop: 10,
     width: styleConstants.deviceWidth - 20,
     flexDirection: 'row',
     justifyContent: 'center',
