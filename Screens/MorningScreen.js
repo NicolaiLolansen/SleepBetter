@@ -128,6 +128,9 @@ export class MorningScreen extends React.Component {
 componentWillMount(){
 
      var answered_today = this.props.navigation.state.params.answered_today;
+
+     console.log(this.props.navigation.state)
+
      console.log(answered_today)
      // If already answered today, go to summary;
      if(answered_today){

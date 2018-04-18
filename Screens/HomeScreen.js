@@ -45,7 +45,9 @@ export class HomeScreen extends React.Component {
 
                      var days = String(date[0]).replace("\"","").split('-');
                      var hours = String(date[1]).replace("\"","").split(':');
-                     var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2])]);
+                     var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2]),
+                                                     parseInt(hours[0]),parseInt(hours[1]),parseInt(hours[2])]);
+
                      console.log(day_answered)
                      console.log(current_day)
                      if(day_answered.getFullYear() === current_day.getFullYear() &&
@@ -55,7 +57,6 @@ export class HomeScreen extends React.Component {
                         }
                  }
              }
-
              this.setState({answered_today:answered_today})
 
          }

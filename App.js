@@ -182,7 +182,9 @@ RegisterUser = () => {
 
                    var days = String(date[0]).replace("\"","").split('-');
                    var hours = String(date[1]).replace("\"","").split(':');
-                   var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2])]);
+                   var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2]),
+                                                   parseInt(hours[0]),parseInt(hours[1]),parseInt(hours[2])]);
+                 
                    console.log(day_answered)
                    console.log(current_day)
                    if(day_answered.getFullYear() === current_day.getFullYear() &&
@@ -229,12 +231,12 @@ RegisterUser = () => {
      .then((response) => response.json())
      .then((responseJson) => {
        if(responseJson.success){
-           NavigationService.navigate("Morning",this.state);
+           console.log("NAVIGATING FROM NOTIFICATION TO MORNING")
+           console.log(this.state.answered_today)
+           NavigationService.navigate("Morning",{answered_today: this.state.answered_today});
        }else{
            alert(responseJson)
        }
-
-
      })
      .catch((error) =>{
        console.error(error);
