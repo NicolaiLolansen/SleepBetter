@@ -77,7 +77,6 @@ constructor(){
         loading: true,
         gender: '',
         answered_today : false,
-
     };
 
     this.userData = {
@@ -89,19 +88,14 @@ constructor(){
 
 handleUsername = (text) => {
     this.setState({ username: text })
-    // console.log(this.state.username)
-    // console.log(this.userData)
 }
 
 setUserData = (key, value) => {
   if (value != "") {
     this.userData[key] = value;
-    this.setState({key:value})
+    this.setState({gender: value})
   }
-  // console.log(this.state.username)
-  // console.log(this.userData)
 }
-
 
 textInputFocused() {
  console.log("focus")
@@ -242,41 +236,6 @@ RegisterUser = () => {
  }
 };
 
-renderGenderPicker() {
-  return (
-     <Picker
-        style={[styles.input, styles.picker]}
-        // selectedValue={this.state.gender}
-        selectedValue={this.userData.gender}
-        // selectedValue={this.userData['gender']}
-        onValueChange={(itemValue, itemIndex) => this.setUserData('gender', itemValue)}>
-          <Picker.Item label="Gender..." value="" />
-          <Picker.Item label="Male" value="male" />
-          <Picker.Item label="Female" value="female" />
-          <Picker.Item label="Other" value="other" />
-     </Picker>
-  )
-}
-
-renderSleepQualityPicker () {
-  return (
-   <Picker
-      style={[styles.input, styles.picker]}
-      // selectedValue={this.state.gender}
-      selectedValue={this.userData.sleepQuality}
-      // selectedValue={this.userData['gender']}
-      onValueChange={(itemValue, itemIndex) => this.setUserData('sleepQuality', itemValue)}>
-        <Picker.Item label="Average Sleep Quality..." value="" />
-        <Picker.Item label="0: I don't sleep at all" value="0" />
-        <Picker.Item label="1: Bad" value="1" />
-        <Picker.Item label="2: OK" value="2" />
-        <Picker.Item label="3: Good" value="3" />
-        <Picker.Item label="4: Very Good" value="4" />
-        <Picker.Item label="5: Excellent" value="5" />
-   </Picker>
-  )
-}
-
   render() {
     if(this.state.loading){
         console.log("LOADING STATE")
@@ -325,9 +284,24 @@ renderSleepQualityPicker () {
                placeholderTextColor='rgba(225,225,225,0.7)'
                />
 
-              { this.renderGenderPicker() }
+               <Picker
+                  style={[styles.input, styles.picker]}
+                  selectedValue={this.state.gender}
+                  // selectedValue={this.userData['gender']}
+                  onValueChange={(itemValue, itemIndex) => this.setUserData('gender', itemValue)}>
+                    <Picker.Item label="Gender..." value="" />
+                    <Picker.Item label="Male" value="male" />
+                    <Picker.Item label="Female" value="female" />
+                    <Picker.Item label="Other" value="other" />
+               </Picker>
 
-              { this.renderSleepQualityPicker() }
+               <TextInput style = {styles.input}
+               autoCapitalize="none"
+               onChangeText= {(text) => this.setUserData('sleepQuality', text)}
+               autoCorrect={false}
+               placeholder='Sleep Quality...'
+               placeholderTextColor='rgba(225,225,225,0.7)'
+               />
 
                <Button style ={styles.buttonContainer} title="Register Phone for Experiment" onPress={this.RegisterUser}/>
             </KeyboardAvoidingView>

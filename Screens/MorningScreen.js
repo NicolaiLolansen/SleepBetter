@@ -151,26 +151,18 @@ componentWillMount(){
 
 
       <View >
-
-
-
         {!this.state.question &&
-<<<<<<< HEAD
-        <View>
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today : true})}>
-=======
         <View style={styles.container}>
                 <NavigationBar
           title="Morning Screen"
           snavigation = {this.props.navigation}
         />
->>>>>>> 0b93c5aeaf0ce9f43a31396fee690d42df841aca
             <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}
               source={require('../images/marvel/morning_screen1.png')}
             />
-      
+
           <TouchableHighlight style={styles.progress} onPress={() => this.showQuestions() } >
             <AutoHeightImage
               style={[styles.image, {marginTop:30}]}
