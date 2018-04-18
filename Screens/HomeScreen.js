@@ -21,7 +21,7 @@ export class HomeScreen extends React.Component {
           snavigation = {this.props.navigation}
         />
 
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('Morning')}>
           <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
@@ -61,10 +61,6 @@ export class HomeScreen extends React.Component {
 
         </View>
 
-        <Button
-          title="Go to Morning Screen"
-          onPress={() => this.props.navigation.navigate('Morning')}
-        />
       </View>
     )
   }
@@ -85,13 +81,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   progress: {
-    marginTop: -15,
+    marginTop: 0,
   },
   sidebyside: {
     width: styleConstants.deviceWidth - 20,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginTop: -10,
+    marginTop: 0,
+    marginBottom: 50,
   },
   achievements: {
     width: styleConstants.deviceWidth * 0.5 - 10,
