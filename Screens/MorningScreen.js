@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, Text, View, StyleSheet, Dimensions, Image, Button,TouchableHighlight, Picker } from 'react-native';
+import { ListView, Text, View, StyleSheet, ActivityIndicator, Dimensions, Image, Button,TouchableHighlight, Picker } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
@@ -20,6 +20,7 @@ export class MorningScreen extends React.Component {
     super();
     var usedDictQuestions = {};
     this.state = {
+      loading: false,
       question:false,
       checked0: false,
       checked1: false,
@@ -35,7 +36,7 @@ export class MorningScreen extends React.Component {
     this.setState({question:true});
 
     var dictQuestions = {
-      "Coffee":"Had coffee", 
+      "Coffee":"Had coffee",
       "Meal":"Ate a big meal",
       "Exercised":"Exercised",
       "Yoga":"Did some yoga",
@@ -60,11 +61,11 @@ export class MorningScreen extends React.Component {
       for (var prop in dictQuestions)
       if (Math.random() < 1/Object.keys(dictQuestions).length && Object.keys(usedDictQuestions).length < 6)
       usedDictQuestions[prop] = dictQuestions[prop];
-    
+
     }
- 
+
  }
- 
+
  setRateSleep = (key, value) => {
   if (value != "") {
     this.userData[key] = value;
@@ -132,17 +133,30 @@ export class MorningScreen extends React.Component {
           });
         })();
 }
+componentWillMount(){
+    const state = this.props.screenProps
+     var answered_today = state.answered_today;
+     // If already answered today, go to summary;
+     if(answered_today){
+         this.setState({loading: true}, () => this.props.navigation.navigate('DailySummary'))
+     }
+}
 
   render() {
-      const state = this.props.screenProps
-       var answered_today = state.answered_today;
        // If already answered today, go to summary;
-       if(answered_today){
-           return(this.props.navigation.navigate('DailySummary'))
-       } else{
+       if(this.state.loading){
+           console.log("LOADING STATE")
+
+           return(
+           <View style={[styles.containerloading, styles.horizontal]}>
+               <ActivityIndicator size="large" color="#0000ff" />
+           </View>);
+       } else {
 
 
    return (
+
+
       <View style={styles.container}>
         <NavigationBar
           title="Daily summary"
@@ -273,12 +287,12 @@ export class MorningScreen extends React.Component {
               <Picker
                 style={[styles.input, styles.picker]}
                 selectedValue={this.state.rateSleep}
-            
+
                 onValueChange={
                   (itemValue, itemIndex) => this.setState({
                     rateSleep: itemValue
                     })}>
-                  
+
                   <Picker.Item label="0" value="0" />
                   <Picker.Item label="1" value="1" />
                   <Picker.Item label="2" value="2" />
@@ -297,9 +311,9 @@ export class MorningScreen extends React.Component {
           </TouchableHighlight>
         </View> }
       </View>
-    )}
+    )}}
   }
-}
+
 
 
 const styles = StyleSheet.create({
@@ -309,6 +323,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
+  containerloading: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+},
   image: {
     paddingTop:10,
     marginBottom:30,
