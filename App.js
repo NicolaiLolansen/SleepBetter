@@ -286,7 +286,7 @@ renderSleepQualityPicker () {
     } else {
 
         // if(this.state.registered && false){
-    if(this.state.registered && false){
+    if(this.state.registered){
         console.log("REGISTERED STATE")
         console.log(this.state)
             return (
