@@ -81,13 +81,21 @@ export class MorningScreen extends React.Component {
 }
 
   render() {
+      const state = this.props.screenProps
+       var answered_today = state.answered_today;
+       // If already answered today, go to summary;
+       if(answered_today){
+           return(this.props.navigation.navigate('DailySummary'))
+       } else{
 
-    return (
+
+   return (
       <View style={styles.container}>
         <NavigationBar
           title="Daily summary"
           snavigation = {this.props.navigation}
         />
+
 
         {!this.state.question &&
         <View>
@@ -182,7 +190,7 @@ export class MorningScreen extends React.Component {
           </TouchableHighlight>
         </View> }
       </View>
-    )
+    )}
   }
 }
 

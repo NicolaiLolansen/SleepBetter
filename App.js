@@ -16,8 +16,8 @@ import NavigationService from './NavigationService';
 
 //let PUSH_ENDPOINT = "http://192.168.43.75:8080/push";
 //let PUSH_ENDPOINT = "http://s134859.ml:8080/push";
-let ENDPOINT = "http://34.240.2.7:8080"
-//let ENDPOINT = "http://192.168.0.14:8080"
+//let ENDPOINT = "http://34.240.2.7:8080"
+let ENDPOINT = "http://10.16.141.21:8080"
 let PUSH_ENDPOINT = ENDPOINT+"/pushtoken";
 let STATE_ENDPOINT = ENDPOINT+"/getstate";
 let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
@@ -75,7 +75,9 @@ constructor(){
         username: "",
         registered: false,
         loading: true,
-        gender: 'hhh'
+        gender: '',
+        answered_today : false,
+
     };
 
     this.userData = {
@@ -148,7 +150,6 @@ RegisterUser = () => {
       alert("Please fill in all fields!")
     }
 }
-
  async componentDidMount() {
    let token = await registerForPushNotificationsAsync();
    url = ENDPOINT + "/getstate/"+token
@@ -156,9 +157,40 @@ RegisterUser = () => {
    .then((response) => response.json())
    .then((responseJson) => {
        console.log("HANDLED LOGIN")
+
        //console.log(responseJson)
        if(responseJson.state){
-           this.setState({registered: true ,token:token,loading: false})
+
+           console.log("getState - State")
+
+           var questions = responseJson.state.questions;
+           var current_day = new Date();
+
+           var questions_answered = false;
+           if(questions){
+               for(var i = 0; i < questions.length; i++){
+                   var day = questions[i].answered;
+                   day = String(day).replace("Z","")
+                   date = String(day).split('T');
+
+                   var days = String(date[0]).replace("\"","").split('-');
+                   var hours = String(date[1]).replace("\"","").split(':');
+                   var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2])]);
+
+                   if(day_answered.getFullYear() === current_day.getFullYear() &&
+                      day_answered.getMonth() === current_day.getMonth() &&
+                      day_answered.getDate() === current_day.getDate()){
+                          questions_answered = true;
+                      }
+               }
+           }
+
+           this.setState({registered: true ,token:token,loading: false,answered_today:questions_answered})
+
+
+
+
+
        } else{
            this.setState({token:token, loading: false})
        }
