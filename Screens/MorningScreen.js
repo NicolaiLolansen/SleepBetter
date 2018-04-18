@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, Text, View, StyleSheet, Dimensions, Image, Button,TouchableHighlight } from 'react-native';
+import { ListView, Text, View, StyleSheet, Dimensions, Image, Button,TouchableHighlight, Picker } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { StackNavigator} from 'react-navigation';
 import { Constants } from 'expo';
@@ -18,42 +18,95 @@ export class MorningScreen extends React.Component {
 
   constructor () {
     super();
+    var usedDictQuestions = {};
     this.state = {
       question:false,
       checked0: false,
       checked1: false,
       checked2: false,
       checked3: false,
+      checked4: false,
+      checked5: false,
+      rateSleep: 5,
     };
  }
 
  showQuestions = () => {
     this.setState({question:true});
+
+    var dictQuestions = {
+      "Coffee":"Had coffee", 
+      "Meal":"Ate a big meal",
+      "Exercised":"Exercised",
+      "Yoga":"Did some yoga",
+      "Alchol":"Drink booze",
+      "Screen":"Look at a screen",
+      "Stressed":"Where stressed",
+      "Hungry":"Where hungry",
+      "Troubles":"Hard time getting asleep",
+      "Caffeine":"Have some caffeine drinks",
+      "Medication":"Take any medication",
+      "Tea":"Drink tea",
+      "Games":"Play video games",
+      "Shower":"Take a shower",
+      "Meditate":"Meditate",
+      "Read":"Read a book",
+    };
+
+    usedDictQuestions = {};
+
+    var count = 0;
+    while (Object.keys(usedDictQuestions).length < 6) {
+      for (var prop in dictQuestions)
+      if (Math.random() < 1/Object.keys(dictQuestions).length && Object.keys(usedDictQuestions).length < 6)
+      usedDictQuestions[prop] = dictQuestions[prop];
+    
+    }
+ 
  }
+ 
+ setRateSleep = (key, value) => {
+  if (value != "") {
+    this.userData[key] = value;
+    this.setState({gender: value})
+  }
+}
 
  submitQuestions = () => {
   let state = this.props.screenProps
-
+  console.log(usedDictQuestions);
   // Create data
   let questions = [
     {
-      "question" : "Coffee",
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[0]],
       "value" : this.state.checked0,
     },
     {
-      "question" : "Meal",
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[1]],
       "value" : this.state.checked1,
     },
     {
-      "question" : "Exercised",
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[2]],
       "value" : this.state.checked2,
     },
     {
-      "question" : "Yoga",
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[3]],
       "value" : this.state.checked3,
+    },
+    {
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[4]],
+      "value" : this.state.checked4,
+    },
+    {
+      "question" : usedDictQuestions[Object.keys(usedDictQuestions)[5]],
+      "value" : this.state.checked5,
+    },
+    {
+      "ratedSleep" : this.state.rateSleep,
     },
   ];
 
+  console.log(questions);
         (async() => {
         //alert('Token: ' + token + ' Username: ' + this.state.username)
         fetch(PUSH_ENDPOINT,{
@@ -125,17 +178,18 @@ export class MorningScreen extends React.Component {
               width={styleConstants.deviceWidth*0.3-20}
               source={require('../images/marvel/logo.png')}
             />
-            <Text style={styles.text}>Which of the following statements are true, 1 hour before you sleep?</Text>
+            <Text style={styles.text}>Which of the following statements are true, 3 hour before you sleep?</Text>
 
           </View>
 
           <CheckBox
               center
-              title='Had coffee'
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[0]]}
               containerStyle={!this.state.checked0 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
               checkedIcon='check-circle'
               uncheckedIcon='minus-circle'
+              size= {18}
               checked={this.state.checked0}
               onPress={() => this.setState({
                 checked0: !this.state.checked0
@@ -144,11 +198,12 @@ export class MorningScreen extends React.Component {
             />
             <CheckBox
               center
-              title='Ate a big meal'
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[1]]}
               containerStyle={!this.state.checked1 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
               checkedIcon='check-circle'
               uncheckedIcon='minus-circle'
+              size= {18}
               checked={this.state.checked1}
               onPress={() => this.setState({
                 checked1: !this.state.checked1
@@ -157,11 +212,12 @@ export class MorningScreen extends React.Component {
             />
             <CheckBox
               center
-              title='Exercised'
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[2]]}
               containerStyle={!this.state.checked2 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
               checkedIcon='check-circle'
               uncheckedIcon='minus-circle'
+              size= {18}
               checked={this.state.checked2}
               onPress={() => this.setState({
                 checked2: !this.state.checked2
@@ -170,17 +226,68 @@ export class MorningScreen extends React.Component {
             />
             <CheckBox
               center
-              title='Did some yoga'
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[3]]}
               containerStyle={!this.state.checked3 ? styles.checkboxesN : styles.checkboxesG }
               textStyle={styles.checkboxesText}
               checkedIcon='check-circle'
               uncheckedIcon='minus-circle'
+              size= {18}
               checked={this.state.checked3}
               onPress={() => this.setState({
                 checked3: !this.state.checked3
                 })
               }
             />
+            <CheckBox
+              center
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[4]]}
+              containerStyle={!this.state.checked4 ? styles.checkboxesN : styles.checkboxesG }
+              textStyle={styles.checkboxesText}
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
+              size= {18}
+              checked={this.state.checked4}
+              onPress={() => this.setState({
+                checked4: !this.state.checked4
+                })
+              }
+            />
+            <CheckBox
+              center
+              title={usedDictQuestions[Object.keys(usedDictQuestions)[5]]}
+              containerStyle={!this.state.checked5 ? styles.checkboxesN : styles.checkboxesG }
+              textStyle={styles.checkboxesText}
+              checkedIcon='check-circle'
+              uncheckedIcon='minus-circle'
+              size= {18}
+              checked={this.state.checked5}
+              onPress={() => this.setState({
+                checked5: !this.state.checked5
+                })
+              }
+            />
+            <View style={[styles.rateSleepContainer]}>
+              <Text style={[styles.rateSleepText]}>
+                Rate your sleep:
+              </Text>
+              <Picker
+                style={[styles.input, styles.picker]}
+                selectedValue={this.state.rateSleep}
+            
+                onValueChange={
+                  (itemValue, itemIndex) => this.setState({
+                    rateSleep: itemValue
+                    })}>
+                  
+                  <Picker.Item label="0" value="0" />
+                  <Picker.Item label="1" value="1" />
+                  <Picker.Item label="2" value="2" />
+                  <Picker.Item label="3" value="3" />
+                  <Picker.Item label="4" value="4" />
+                  <Picker.Item label="5" value="5" />
+              </Picker>
+            </View>
+
           <TouchableHighlight style={styles.progress} onPress={() => this.submitQuestions()} >
             <AutoHeightImage
               style={styles.image}
@@ -209,8 +316,8 @@ const styles = StyleSheet.create({
   },
   image2: {
     paddingTop:10,
-    marginBottom:30,
-    marginTop: 30,
+    marginBottom:20,
+    marginTop: 20,
     resizeMode: 'contain',
   },
   morningMessage: {
@@ -226,14 +333,36 @@ const styles = StyleSheet.create({
   },
   checkboxesN: {
     backgroundColor: 'rgba(235,235,235,0.43)',
-    height: 60,
+    height: 40,
   },
   checkboxesG: {
     backgroundColor: 'rgba(119,211,83,0.63)',
-    height: 60,
+    height: 40,
   },
   checkboxesText: {
     color: "#5A6978",
-    fontSize: 24,
+    fontSize: 15,
+  },
+  picker: {
+    color: '#b2beb5',
+  },
+  input:{
+    height: 40,
+    backgroundColor: 'rgba(225,225,225,0.2)',
+    width: styleConstants.deviceWidth *0.5 - 20,
+    padding: 10,
+    color: '#fff'
+  },
+
+  rateSleepText: {
+    width: styleConstants.deviceWidth *0.5 - 20,
+  },
+
+  rateSleepContainer: {
+    marginTop: 20,
+    width: styleConstants.deviceWidth - 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems : 'center',
   },
 })
