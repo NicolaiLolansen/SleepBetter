@@ -155,8 +155,6 @@ componentWillMount(){
 
 
         {!this.state.question &&
-        <View>
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today : true})}>
         <View style={styles.container}>
                 <NavigationBar
           title="Morning Screen"
