@@ -11,6 +11,24 @@ export class SummaryScreen extends React.Component {
     title: 'SummaryScreen',
 
   };
+
+  constructor () {
+    super();
+    var answered_today = true;
+    this.state = {
+      loading: false,
+      question:false,
+      checked0: false,
+      checked1: false,
+      checked2: false,
+      checked3: false,
+      checked4: false,
+      checked5: false,
+      rateSleep: 5,
+      answered_today: answered_today
+    };
+ }
+
   render() {
     return (
       <View style={styles.container}>
@@ -18,17 +36,17 @@ export class SummaryScreen extends React.Component {
           title="Daily summary"
           snavigation = {this.props.navigation}
         />
-        
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>       
-          <AutoHeightImage 
+
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today:this.state.answered_today})}>
+          <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/daily_summary.png')}
            />
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Home')}>       
-          <AutoHeightImage 
+        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Home',{answered_today:this.state.answered_today})}>
+          <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
             source={require('../images/marvel/done.png')}

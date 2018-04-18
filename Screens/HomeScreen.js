@@ -9,10 +9,35 @@ import AutoHeightImage from 'react-native-auto-height-image';
 
 export class HomeScreen extends React.Component {
 
+  constructor () {
+      super();
+      this.state = {
+        answered_today: "",
+      };
+
+ }
+
+
+ componentWillMount(){
+     console.log("HomeScreen state props")
+     console.log(this.state)
+     if(this.props.navigation.state.params){
+         if(this.props.navigation.state.params.answered_today){
+             this.setState({answered_today: true})
+         }
+     }
+
+     if(this.props.screenProps.answered_today){
+         this.setState({answered_today: true})
+         console.log("SETTING STATE IN HOMESCREEN");
+         console.log(this.props.screenProps.answered_today)
+         console.log(this.state);
+     }
+ }
+
   render() {
 
-    const state = this.props.screenProps
-    console.log(state)
+
     return (
 
       <View style={styles.container}>
@@ -21,7 +46,7 @@ export class HomeScreen extends React.Component {
           snavigation = {this.props.navigation}
         />
 
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('Morning')}>
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('Morning',{answered_today: this.state.answered_today})}>
           <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
@@ -29,7 +54,7 @@ export class HomeScreen extends React.Component {
            />
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress')}>
+        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Progress',{answered_today: this.state.answered_today})}>
           <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
@@ -40,7 +65,7 @@ export class HomeScreen extends React.Component {
         <View style={styles.sidebyside}>
 
           <View style={styles.achievements}>
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges')}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Challenges',{answered_today: this.state.answered_today})}>
               <AutoHeightImage
                 style={styles.imagehalf}
                 width={styleConstants.deviceWidth * 0.5 - 10}

@@ -107,7 +107,6 @@ export class MorningScreen extends React.Component {
     },
   ];
 
-  console.log(questions);
         (async() => {
         //alert('Token: ' + token + ' Username: ' + this.state.username)
         fetch(PUSH_ENDPOINT,{
@@ -121,7 +120,7 @@ export class MorningScreen extends React.Component {
           .then((response) => response.json())
           .then((responseJson) => {
             if(responseJson.success){
-                this.props.navigation.navigate('DailySummary');
+                this.props.navigation.navigate('DailySummary',{answered_today: true});
                 alert(responseJson.success)
             }else{
                 alert(responseJson.error)
@@ -134,11 +133,12 @@ export class MorningScreen extends React.Component {
         })();
 }
 componentWillMount(){
-    const state = this.props.screenProps
-     var answered_today = state.answered_today;
+
+     var answered_today = this.props.navigation.state.params.answered_today;
+     console.log(answered_today)
      // If already answered today, go to summary;
      if(answered_today){
-         this.setState({loading: true}, () => this.props.navigation.navigate('DailySummary'))
+         this.setState({loading: true}, () => this.props.navigation.navigate('DailySummary',{answered_today: true}))
      }
 }
 
@@ -166,7 +166,7 @@ componentWillMount(){
 
         {!this.state.question &&
         <View>
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary')}>
+          <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today : true})}>
             <AutoHeightImage
               style={styles.image}
               width={styleConstants.deviceWidth-20}

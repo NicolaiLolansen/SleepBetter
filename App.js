@@ -162,8 +162,9 @@ RegisterUser = () => {
        if(responseJson.state){
 
            console.log("getState - State")
-
+           console.log(responseJson.state)
            var questions = responseJson.state.questions;
+
            var current_day = new Date();
 
            var questions_answered = false;
@@ -176,7 +177,8 @@ RegisterUser = () => {
                    var days = String(date[0]).replace("\"","").split('-');
                    var hours = String(date[1]).replace("\"","").split(':');
                    var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2])]);
-
+                   console.log(day_answered)
+                   console.log(current_day)
                    if(day_answered.getFullYear() === current_day.getFullYear() &&
                       day_answered.getMonth() === current_day.getMonth() &&
                       day_answered.getDate() === current_day.getDate()){
