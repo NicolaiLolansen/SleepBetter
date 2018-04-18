@@ -37,7 +37,7 @@ export class SummaryScreen extends React.Component {
           snavigation = {this.props.navigation}
         />
 
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today:this.state.answered_today})}>
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('DailySummary',{answered_today: true})}>
           <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
@@ -45,7 +45,7 @@ export class SummaryScreen extends React.Component {
            />
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Home',{answered_today:this.state.answered_today})}>
+        <TouchableHighlight style={styles.progress} onPress={() => this.props.navigation.navigate('Home',{answered_today:true})}>
           <AutoHeightImage
             style={styles.image}
             width={styleConstants.deviceWidth-20}
@@ -56,6 +56,14 @@ export class SummaryScreen extends React.Component {
     )
   }
 }
+
+      // <View style={styles.container}>
+      //   <Text>This is the Summary screen</Text>
+      //   <Button
+      //     title="Go to ProgressOverview"
+      //     onPress={() => this.props.navigation.navigate('Progress')}
+      //   />
+      // </View>
 
 const styles = StyleSheet.create({
   container: {

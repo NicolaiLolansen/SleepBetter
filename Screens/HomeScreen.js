@@ -18,7 +18,7 @@ export class HomeScreen extends React.Component {
  }
 
 
- componentWillMount(){
+ async componentWillMount(){
      console.log("HomeScreen state props")
      console.log(this.state)
      if(this.props.navigation.state.params){
