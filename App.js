@@ -23,6 +23,7 @@ let STATE_ENDPOINT = ENDPOINT+"/getstate";
 let NOTIFICATION_PUSHENDPOINT = ENDPOINT+"/addnotification";
 let NOTIFICATION_UPDATEENDPOINT = ENDPOINT+"/updatenotification";
 
+export {ENDPOINT}
 export {PUSH_ENDPOINT}
 
 const SleepBetter = StackNavigator({

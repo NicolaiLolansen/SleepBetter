@@ -6,37 +6,63 @@ import styleConstants from '../Styles/Global.js';
 import NavigationBar from '../Components/Navigation';
 
 import AutoHeightImage from 'react-native-auto-height-image';
+import {ENDPOINT} from '../App.js';
 
 export class HomeScreen extends React.Component {
 
   constructor () {
       super();
       this.state = {
-        answered_today: "",
+        answered_today: false,
       };
 
  }
 
 
- async componentWillMount(){
-     console.log("HomeScreen state props")
-     console.log(this.state)
-     if(this.props.navigation.state.params){
-         if(this.props.navigation.state.params.answered_today){
-             this.setState({answered_today: true})
-         }
-     }
+ async componentWillMount() {
 
-     if(this.props.screenProps.answered_today){
-         this.setState({answered_today: true})
-         console.log("SETTING STATE IN HOMESCREEN");
-         console.log(this.props.screenProps.answered_today)
-         console.log(this.state);
-     }
- }
+     var token = this.props.screenProps.token;
+     url = ENDPOINT + "/getstate/"+token
+     fetch(url)
+     .then((response) => response.json())
+     .then((responseJson) => {
+         console.log("HANDLED LOGIN")
+
+
+         if(responseJson.state){
+
+             console.log("getState - State")
+             console.log(responseJson.state)
+             var questions = responseJson.state.questions;
+
+             var current_day = new Date();
+             var answered_today = false;
+             if(questions){
+                 for(var i = 0; i < questions.length; i++){
+                     var day = questions[i].answered;
+                     day = String(day).replace("Z","")
+                     date = String(day).split('T');
+
+                     var days = String(date[0]).replace("\"","").split('-');
+                     var hours = String(date[1]).replace("\"","").split(':');
+                     var day_answered = new Date(...[parseInt(days[0]),parseInt(days[1])-1,parseInt(days[2])]);
+                     console.log(day_answered)
+                     console.log(current_day)
+                     if(day_answered.getFullYear() === current_day.getFullYear() &&
+                        day_answered.getMonth() === current_day.getMonth() &&
+                        day_answered.getDate() === current_day.getDate()){
+                            answered_today = true;
+                        }
+                 }
+             }
+
+             this.setState({answered_today:answered_today})
+
+         }
+ })
+}
 
   render() {
-
 
     return (
 
